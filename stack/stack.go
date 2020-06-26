@@ -16,7 +16,7 @@ type stackElement struct {
 
 // DefaultStack is the instance of the interface that can be used
 type DefaultStack struct {
-	head *stackElement
+	top *stackElement
 }
 
 // New returns a new DefaultStack
@@ -28,30 +28,30 @@ func New() *DefaultStack {
 func (s *DefaultStack) Push(i interface{}) {
 	se := &stackElement{
 		value: i,
-		next:  s.head,
+		next:  s.top,
 	}
-	s.head = se
+	s.top = se
 }
 
-// Pop will remove and return the top element on the stack
+// Pop removes and returns the top element on the stack
 func (s *DefaultStack) Pop() interface{} {
-	if s.head == nil {
+	if s.top == nil {
 		return nil
 	}
-	se := s.head
-	s.head = s.head.next
+	se := s.top
+	s.top = s.top.next
 	return se.value
 }
 
-// Peek will return the top element on the stack without removing it
+// Peek returns the top element on the stack without removing it
 func (s *DefaultStack) Peek() interface{} {
-	if s.head == nil {
+	if s.top == nil {
 		return nil
 	}
-	return s.head.value
+	return s.top.value
 }
 
 // IsEmpty returns whether or not the stack contains any elements
 func (s *DefaultStack) IsEmpty() bool {
-	return s.head == nil
+	return s.top == nil
 }
