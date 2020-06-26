@@ -15,8 +15,12 @@ func TestNew(t *testing.T) {
 
 func TestPushAndPeek(t *testing.T) {
 	s := stack.New()
-	s.Push(10)
 	peekOut := s.Peek()
+	if peekOut != nil {
+		t.Errorf("Peek() did not return nil when stack is empty. got: %v, want: %v", peekOut, nil)
+	}
+	s.Push(10)
+	peekOut = s.Peek()
 	if peekOut != 10 {
 		t.Errorf("Push() did not put element at the top of the stack. got: %v, want: %v", peekOut, 10)
 	}

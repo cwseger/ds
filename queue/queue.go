@@ -1,5 +1,6 @@
 package queue
 
+// Queue is the interface that defines how to interact with the queue
 type Queue interface {
 	Enqueue(interface{})
 	Dequeue() interface{}
@@ -7,16 +8,19 @@ type Queue interface {
 	IsEmpty() bool
 }
 
+// queueElement is the element that is used to store data in the queue
 type queueElement struct {
 	value interface{}
 	next  *queueElement
 }
 
+// DefaultQueue is the instance of the interface that can be used
 type DefaultQueue struct {
 	head *queueElement
 	tail *queueElement
 }
 
+// New returns a new DefaultQueue
 func New() *DefaultQueue {
 	return &DefaultQueue{}
 }
@@ -28,13 +32,15 @@ func (q *DefaultQueue) Enqueue(i interface{}) {
 	}
 	if q.tail != nil {
 		q.tail.next = qe
+	} else {
+		q.head = qe
 	}
 	q.tail = qe
 }
 
 // Dequeue removes and returns the first added element from the front of the queue
 func (q *DefaultQueue) Dequeue() interface{} {
-	if head == nil {
+	if q.head == nil {
 		return nil
 	}
 	qe := q.head
@@ -47,7 +53,7 @@ func (q *DefaultQueue) Dequeue() interface{} {
 
 // Peek returns the first added element from the back of the queue without removing it
 func (q *DefaultQueue) Peek() interface{} {
-	if head == nil {
+	if q.head == nil {
 		return nil
 	}
 	return q.head.value
@@ -55,5 +61,5 @@ func (q *DefaultQueue) Peek() interface{} {
 
 // IsEmpty returns whether or not the queue is empty
 func (q *DefaultQueue) IsEmpty() bool {
-	return head == nil
+	return q.head == nil
 }
