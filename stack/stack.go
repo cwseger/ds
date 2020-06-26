@@ -51,7 +51,7 @@ func (s *DefaultStack) Peek() interface{} {
 	return s.top.value
 }
 
-// IsEmpty returns whether or not the stack contains any elements
+// IsEmpty returns whether or not the stack is empty
 func (s *DefaultStack) IsEmpty() bool {
 	return s.top == nil
 }

@@ -51,7 +51,7 @@ func (q *DefaultQueue) Dequeue() interface{} {
 	return qe.value
 }
 
-// Peek returns the first added element from the back of the queue without removing it
+// Peek returns the first added element from the front of the queue without removing it
 func (q *DefaultQueue) Peek() interface{} {
 	if q.head == nil {
 		return nil
