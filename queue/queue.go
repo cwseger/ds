@@ -1,45 +1,43 @@
 package queue
 
-// Queue is the interface that defines how to interact with the queue
+// Queue is the interface that defines how to interact with the queue.
 type Queue interface {
-	Enqueue(interface{})
-	Dequeue() interface{}
-	Peek() interface{}
+	Enqueue(v any)
+	Dequeue() any
+	Peek() any
 	IsEmpty() bool
 }
 
-// queueElement is the element that is used to store data in the queue
-type queueElement struct {
-	value interface{}
-	next  *queueElement
+// element is the element that is used to store data in the queue.
+type element struct {
+	val  any
+	next *element
 }
 
-// DefaultQueue is the instance of the interface that can be used
+// DefaultQueue is an implementation of Queue that uses a linked list as the backing data structure..
 type DefaultQueue struct {
-	head *queueElement
-	tail *queueElement
+	head *element
+	tail *element
 }
 
-// New returns a new DefaultQueue
+// New returns a new DefaultQueue.
 func New() *DefaultQueue {
 	return &DefaultQueue{}
 }
 
-// Enqueue inserts the provided element into the back of the queue
-func (q *DefaultQueue) Enqueue(i interface{}) {
-	qe := &queueElement{
-		value: i,
-	}
+// Enqueue inserts the provided element into the back of the queue to perform queue operations.
+func (q *DefaultQueue) Enqueue(v any) {
+	e := &element{val: v}
 	if q.tail != nil {
-		q.tail.next = qe
+		q.tail.next = e
 	} else {
-		q.head = qe
+		q.head = e
 	}
-	q.tail = qe
+	q.tail = e
 }
 
-// Dequeue removes and returns the first added element from the front of the queue
-func (q *DefaultQueue) Dequeue() interface{} {
+// Dequeue removes and returns the element from the front of the queue.
+func (q *DefaultQueue) Dequeue() any {
 	if q.head == nil {
 		return nil
 	}
@@ -48,18 +46,18 @@ func (q *DefaultQueue) Dequeue() interface{} {
 	if q.head == nil {
 		q.tail = nil
 	}
-	return qe.value
+	return qe.val
 }
 
-// Peek returns the first added element from the front of the queue without removing it
-func (q *DefaultQueue) Peek() interface{} {
+// Peek returns the element from the front of the queue without removing it.
+func (q *DefaultQueue) Peek() any {
 	if q.head == nil {
 		return nil
 	}
-	return q.head.value
+	return q.head.val
 }
 
-// IsEmpty returns whether or not the queue is empty
+// IsEmpty returns whether or not the queue is empty.
 func (q *DefaultQueue) IsEmpty() bool {
 	return q.head == nil
 }
