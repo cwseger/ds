@@ -8,25 +8,25 @@ type Queue interface {
 	IsEmpty() bool
 }
 
-// element is the element that is used to store data in the queue.
+// element is the element that is used to store data in the linked list queue.
 type element struct {
 	val  any
 	next *element
 }
 
-// DefaultQueue is an implementation of Queue that uses a linked list as the backing data structure..
-type DefaultQueue struct {
+// LinkedListQueue is an implementation of Queue that uses a linked list as the backing data structure.
+type LinkedListQueue struct {
 	head *element
 	tail *element
 }
 
-// New returns a new DefaultQueue.
-func New() *DefaultQueue {
-	return &DefaultQueue{}
+// NewLinkedList returns a new LinkedListQueue.
+func NewLinkedList() *LinkedListQueue {
+	return &LinkedListQueue{}
 }
 
-// Enqueue inserts the provided element into the back of the queue to perform queue operations.
-func (q *DefaultQueue) Enqueue(v any) {
+// Enqueue inserts the provided element into the back of the queue.
+func (q *LinkedListQueue) Enqueue(v any) {
 	e := &element{val: v}
 	if q.tail != nil {
 		q.tail.next = e
@@ -37,7 +37,7 @@ func (q *DefaultQueue) Enqueue(v any) {
 }
 
 // Dequeue removes and returns the element from the front of the queue.
-func (q *DefaultQueue) Dequeue() any {
+func (q *LinkedListQueue) Dequeue() any {
 	if q.head == nil {
 		return nil
 	}
@@ -50,7 +50,7 @@ func (q *DefaultQueue) Dequeue() any {
 }
 
 // Peek returns the element from the front of the queue without removing it.
-func (q *DefaultQueue) Peek() any {
+func (q *LinkedListQueue) Peek() any {
 	if q.head == nil {
 		return nil
 	}
@@ -58,6 +58,44 @@ func (q *DefaultQueue) Peek() any {
 }
 
 // IsEmpty returns whether or not the queue is empty.
-func (q *DefaultQueue) IsEmpty() bool {
+func (q *LinkedListQueue) IsEmpty() bool {
 	return q.head == nil
+}
+
+// SliceQueue is an implementation of Queue that uses a slice as the backing data structure..
+type SliceQueue struct {
+	s []any
+}
+
+// NewSlice returns a new SliceQueue.
+func NewSlice() *SliceQueue {
+	return &SliceQueue{}
+}
+
+// Enqueue inserts the provided element into the back of the queue.
+func (q *SliceQueue) Enqueue(v any) {
+	q.s = append(q.s, v)
+}
+
+// Dequeue removes and returns the element from the front of the queue.
+func (q *SliceQueue) Dequeue() any {
+	if len(q.s) == 0 {
+		return nil
+	}
+	v := q.s[0]
+	q.s = q.s[1:]
+	return v
+}
+
+// Peek returns the element from the front of the queue without removing it.
+func (q *SliceQueue) Peek() any {
+	if len(q.s) == 0 {
+		return nil
+	}
+	return q.s[0]
+}
+
+// IsEmpty returns whether or not the queue is empty.
+func (q *SliceQueue) IsEmpty() bool {
+	return len(q.s) == 0
 }
